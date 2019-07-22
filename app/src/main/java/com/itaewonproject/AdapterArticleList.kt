@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 class AdapterArticleList(val context: Context, var output:ArrayList<OutputArticle>) : RecyclerView.Adapter<AdapterArticleList.ViewHolder>() {
 
@@ -64,9 +65,18 @@ class AdapterArticleList(val context: Context, var output:ArrayList<OutputArticl
         }
         fun bind(output:OutputArticle){
             articleId=output.article_id
-            img.setImageBitmap(output.getImage())
+            Picasso.with(itemView.context)
+                .load(output.img_url)
+                .transform(RatioTransformation(300))
+                .into(img)
+
+
+            Picasso.with(itemView.context)
+                .load(output.ref_icon_url)
+                .transform(RatioTransformation(100))
+                .into(buttonRef)
             summary.text=output.summary
-            buttonRef.setImageBitmap(output.getRefIcon())
+            //buttonRef.setImageBitmap(output.getRefIcon())
             /*buttonRef.setOnClickListener(View.OnClickListener {
                 var intent = Intent(Intent.ACTION_VIEW, Uri.parse(output.link))
                 (itemView.parent as Context).startActivity(intent)

@@ -15,6 +15,8 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Transformation
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -23,7 +25,7 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.util.concurrent.ExecutionException
 
-class AdapterImageList(val context: Context, var images:ArrayList<Bitmap>) : RecyclerView.Adapter<AdapterImageList.ViewHolder>() {
+class AdapterImageList(val context: Context, var images:ArrayList<String>) : RecyclerView.Adapter<AdapterImageList.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(position)
@@ -38,10 +40,10 @@ class AdapterImageList(val context: Context, var images:ArrayList<Bitmap>) : Rec
         return images.size
     }
 
-    fun setImage(images:ArrayList<Bitmap>){
+   /* fun setImage(images:ArrayList<Bitmap>){
         this.images=images
         notifyDataSetChanged()
-    }
+    }*/
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var img:ImageView
         init{
@@ -50,10 +52,12 @@ class AdapterImageList(val context: Context, var images:ArrayList<Bitmap>) : Rec
         }
         fun bind(pos:Int){
             //img.setImageBitmap(APIs.BitmapFromURL(url,300,300))
-            img.setImageBitmap(images[pos])
+            //img.setImageBitmap(images[pos])
+            Picasso.with(itemView.context)
+                .load(images[pos])
+                .transform(RatioTransformation(300))
+                .into(img)
         }
     }
-
-
 
 }

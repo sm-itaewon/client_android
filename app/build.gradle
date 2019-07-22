@@ -40,6 +40,7 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.customview:customview:1.0.0'
     implementation 'com.google.android.libraries.places:places:1.1.0'
+    implementation files('libs/picasso-2.5.2.jar')
 }
 apply plugin: 'com.google.gms.google-services'
 

@@ -16,15 +16,12 @@ import java.io.Serializable
 class OutputLocation{
     var title=""
     var imgUrl: ArrayList<String>
-    var images= ArrayList<Bitmap>()
     var rating=0f
     var placeId=""
     var latlng = LatLng(0.0,0.0)
     var category =0
     var articleCount=0
     var usedTime=0
-    lateinit var imgParser:ImageParser
-    val emptyImage = Bitmap.createBitmap(300,300,Bitmap.Config.ARGB_8888)
 
     constructor(title:String, urls:ArrayList<String>, rating:Float, placeId:String,latlng: LatLng,usedTime:Int,category: Int,articleCount:Int){
         this.title=title
@@ -36,19 +33,6 @@ class OutputLocation{
         this.category=category
         this.articleCount=articleCount
 
-        for (i in 0..imgUrl.size - 1) images.add(emptyImage)
-
-        imgParser = ImageParser()
-        imgParser.setOnImageParsingDoneListener( object:ImageParser.OnImageParsingDoneListener{
-            override fun OnImageParsingDone(imgs: ArrayList<Bitmap>) {
-                images = imgs
-            }
-        })
-
-    }
-
-    fun loadImages(){
-        imgParser.getImageAsync(imgUrl, 300, 300)
     }
 
 }

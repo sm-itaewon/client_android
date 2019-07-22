@@ -2,6 +2,7 @@ package com.itaewonproject
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -79,7 +80,7 @@ class AdapterLocationList(val context: Context, var output:ArrayList<OutputLocat
             this.usedTime.text="평균 소요 시간: ${APIs.secToString(output.usedTime)}"
             this.articleCount.text="관련 게시물: ${output.articleCount} 건"
 
-            val adapter = AdapterImageList(itemView.context,output.images)
+            val adapter = AdapterImageList(itemView.context,output.imgUrl)
 
             imgList.adapter=adapter
 
@@ -87,6 +88,7 @@ class AdapterLocationList(val context: Context, var output:ArrayList<OutputLocat
             imgList.layoutManager=linearLayoutManager
             imgList.setHasFixedSize(true)
         }
+
     }
 
 }
