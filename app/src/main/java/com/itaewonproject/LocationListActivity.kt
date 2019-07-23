@@ -53,9 +53,9 @@ class LocationListActivity: AppCompatActivity(),OnMapReadyCallback,Serializable 
         recyclerView = findViewById(R.id.recyclerView_locationList) as RecyclerView
         for(oll in list)
         {
-            Log.i("!!",oll.latlng.toString())
+            Log.i("!!",oll.latlng().toString())
             var markerOptions =MarkerOptions()
-            markerOptions.position(oll.latlng)
+            markerOptions.position(oll.latlng())
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
             mMap.addMarker(markerOptions)
         }

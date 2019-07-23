@@ -8,7 +8,9 @@ import com.google.android.gms.maps.model.LatLng
 import org.json.JSONException
 import org.json.JSONObject
 import com.google.android.libraries.places.internal.ip
-
+import com.google.gson.Gson
+import com.google.gson.JsonParseException
+import com.google.gson.reflect.TypeToken
 
 
 object APIs{
@@ -32,13 +34,10 @@ object APIs{
 
 
         val apiResult = """
-            {
-                "location": [
-                    {
+            [
+                {
                         "title": "title1",
-                         "img": [
-                            {"url": "$bmp1"}, {"url": "$bmp2"}, {"url": "$bmp3"}, {"url": "$bmp4"}, {"url": "$bmp5"}, {"url": "$bmp4"}, {"url": "$bmp3"}, {"url": "$bmp2"}, {"url": "$bmp1"}
-                         ],
+                         "imgUrl": ["$bmp1","$bmp2","$bmp3","$bmp4","$bmp5","$bmp4","$bmp3","$bmp2", "$bmp1"],
                         "rating": 3.5f,
                         "placeId": "1",
                         "latitude":${latitude+0.00},
@@ -50,9 +49,7 @@ object APIs{
                     },
                     {
                         "title": "title2",
-                         "img": [
-                            {"url": "$bmp2"}, {"url": "$bmp4"}, {"url": "$bmp3"}, {"url": "$bmp1"}, {"url": "$bmp5"}, {"url": "$bmp4"}
-                         ],
+                         "imgUrl": ["$bmp1","$bmp2","$bmp3","$bmp4","$bmp5","$bmp4","$bmp3","$bmp2", "$bmp1"],
                         "rating": 5.0f,
                         "placeId": "2",
                         "latitude":${latitude+0.01},
@@ -64,9 +61,7 @@ object APIs{
                     },
                     {
                         "title": "title3",
-                         "img": [
-                            {"url": "$bmp1"}, {"url": "$bmp2"}
-                         ],
+                         "imgUrl":["$bmp4","$bmp5","$bmp4","$bmp3","$bmp2", "$bmp1"],
                         "rating": 2f,
                         "placeId": "3",
                         "latitude":${latitude-0.01},
@@ -78,9 +73,7 @@ object APIs{
                     },
                     {
                         "title": "title4",
-                         "img": [
-                            {"url": "$bmp4"}, {"url": "$bmp5"}, {"url": "$bmp3"}, {"url": "$bmp2"}, {"url": "$bmp1"}, {"url": "$bmp4"}, {"url": "$bmp3"}
-                         ],
+                         "imgUrl": ["$bmp3","$bmp1"],
                         "rating": 4.5f,
                         "placeId": "4",
                         "latitude":${latitude+0.00},
@@ -92,9 +85,7 @@ object APIs{
                     },
                     {
                         "title": "title5",
-                         "img": [
-                            {"url": "$bmp1"}, {"url": "$bmp2"}, {"url": "$bmp3"}, {"url": "$bmp4"}, {"url": "$bmp5"}, {"url": "$bmp4"}
-                         ],
+                         "imgUrl":["$bmp3","$bmp2","$bmp5","$bmp4","$bmp3","$bmp2", "$bmp1"],
                         "rating": 3.5f,
                         "placeId": "5",
                         "latitude":${latitude+0.02},
@@ -103,10 +94,8 @@ object APIs{
                         "articleCount":98,
                         "usedTime":3230
                         
-                    }
-                ],
-                "error": null
-            }
+                }
+            ]
         """.trimIndent()
 
 
@@ -116,34 +105,18 @@ object APIs{
 
     private fun API1JsonParsing(longitude:Double, latitude:Double,result:String):ArrayList<OutputLocation>{
         var arr = ArrayList<OutputLocation>()
+        var gson = Gson()
         try{
-            var returns = JSONObject(result).getJSONArray("location")
-            Log.i("return size:","${returns.length()}")
-            for(i in 0.. returns.length()-1){
-                var output = returns.getJSONObject(i)
-                var title = output.optString("title")
-                var imgs = output.getJSONArray("img")
-                var rating = output.optDouble("rating")
-                var placeId =output.optString("placeId")
-                var latlng = LatLng(output.optDouble("latitude"),output.optDouble("longitude"))
-                var category = output.optInt("category")
-                var articleCount = output.optInt("articleCount")
-                var usedTime= output.optInt("usedTime")
-                var imgUrls= ArrayList<String>()
-                for( j in 0.. imgs.length()-1){
-                    imgUrls.add(imgs.getJSONObject(j).optString("url"))
-                }
-                arr.add(OutputLocation(title,imgUrls,rating.toFloat(),placeId,latlng,usedTime,category,articleCount))
-
-            }
-
-        }catch (e:JSONException){
+            arr.addAll(gson.fromJson<ArrayList<OutputLocation>>(result, object : TypeToken <ArrayList<OutputLocation>>(){}.type))
+        }catch(e:JsonParseException)
+        {
             e.printStackTrace()
         }
         for(i in 6..20){
-            arr.add(OutputLocation("output$i",arrayListOf<String>(bmp2,bmp4,bmp1,bmp4,bmp5,bmp1,bmp2,bmp4),(i%6)+0f,"$i",LatLng(latitude-0.002,longitude+0.001*i-0.012),i*400,i%5,(i*24)%49))
+            arr.add(OutputLocation("output$i",arrayListOf<String>(bmp2,bmp4,bmp1,bmp4,bmp5,bmp1,bmp2,bmp4),(i%6)+0f,"$i",latitude-0.002,longitude+0.001*i-0.012,i*400,i%5,(i*24)%49))
 
         }
+        System.out.println(Gson().toJson(arr))
         return arr
     }
 
@@ -152,9 +125,96 @@ object APIs{
         var ref = listOf<String>("https://facebookbrand.com/wp-content/themes/fb-branding/assets/images/fb-logo.png?v2",
             "https://instagram-brand.com/wp-content/uploads/2016/11/Instagram_AppIcon_Aug2017.png?w=300")
         var link = listOf<String>("http://www.facebook.com","http://www.instagram.com")
+        var apiResult="""
+            [
+                {
+                    "article_id"="1",
+                    "img_url"="$bmp1",
+                    "link"="${link[1]}",
+                    "ref_icon_url"="${ref[1]}",
+                    "summary"="summary\nof\nArticle1"
+                },
+                {
+                    "article_id"="2",
+                    "img_url"="$bmp2",
+                    "link"="${link[0]}",
+                    "ref_icon_url"="${ref[0]}",
+                    "summary"="summary\nof\nArticle2"
+                },
+                {
+                    "article_id"="3",
+                    "img_url"="$bmp3",
+                    "link"="${link[1]}",
+                    "ref_icon_url"="${ref[1]}",
+                    "summary"="summary\nof\nArticle3"
+                },
+                {
+                    "article_id"="4",
+                    "img_url"="$bmp4",
+                    "link"="${link[0]}",
+                    "ref_icon_url"="${ref[0]}",
+                    "summary"="summary\nof\nArticle4"
+                },
+                {
+                    "article_id"="5",
+                    "img_url"="$bmp5",
+                    "link"="${link[1]}",
+                    "ref_icon_url"="${ref[1]}",
+                    "summary"="summary\nof\nArticle5"
+                },
+                {
+                    "article_id"="6",
+                    "img_url"="$bmp1",
+                    "link"="${link[0]}",
+                    "ref_icon_url"="${ref[0]}",
+                    "summary"="summary\nof\nArticle6"
+                },
+                {
+                    "article_id"="7",
+                    "img_url"="$bmp2",
+                    "link"="${link[1]}",
+                    "ref_icon_url"="${ref[1]}",
+                    "summary"="summary\nof\nArticle7"
+                },
+                {
+                    "article_id"="8",
+                    "img_url"="$bmp3",
+                    "link"="${link[0]}",
+                    "ref_icon_url"="${ref[0]}",
+                    "summary"="summary\nof\nArticle8"
+                },
+                {
+                    "article_id"="9",
+                    "img_url"="$bmp4",
+                    "link"="${link[1]}",
+                    "ref_icon_url"="${ref[1]}",
+                    "summary"="summary\nof\nArticle9"
+                },
+                {
+                    "article_id"="10",
+                    "img_url"="$bmp5",
+                    "link"="${link[0]}",
+                    "ref_icon_url"="${ref[0]}",
+                    "summary"="summary\nof\nArticle10"
+                }
+            ]
+        """.trimIndent()
+/*
+
         var arr = ArrayList<OutputArticle>()
         for(i in 1.. 10){
             arr.add(OutputArticle(bmp[i%5],"summary\nof\nArticle$i",ref[i%2],"$i",link[i%2]))
+        }
+
+        System.out.println(Gson().toJson(arr))
+*/
+        var arr = ArrayList<OutputArticle>()
+        var gson = Gson()
+        try{
+            arr.addAll(gson.fromJson<ArrayList<OutputArticle>>(apiResult, object : TypeToken <ArrayList<OutputArticle>>(){}.type))
+        }catch(e:JsonParseException)
+        {
+            e.printStackTrace()
         }
 
         return arr

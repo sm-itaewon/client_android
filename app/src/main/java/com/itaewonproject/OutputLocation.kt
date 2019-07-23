@@ -18,21 +18,24 @@ class OutputLocation{
     var imgUrl: ArrayList<String>
     var rating=0f
     var placeId=""
-    var latlng = LatLng(0.0,0.0)
+    var latitude=0.0
+    var longitude=0.0
     var category =0
     var articleCount=0
     var usedTime=0
 
-    constructor(title:String, urls:ArrayList<String>, rating:Float, placeId:String,latlng: LatLng,usedTime:Int,category: Int,articleCount:Int){
+    constructor(title:String, urls:ArrayList<String>, rating:Float, placeId:String,latitude:Double,longitude:Double,usedTime:Int,category: Int,articleCount:Int){
         this.title=title
         this.imgUrl=urls
         this.rating=rating
         this.placeId=placeId
-        this.latlng=latlng
+        this.latitude=latitude
+        this.longitude=longitude
         this.usedTime=usedTime
         this.category=category
         this.articleCount=articleCount
 
     }
+    fun latlng():LatLng{return LatLng(latitude,longitude)}
 
 }
