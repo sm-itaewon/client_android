@@ -1,14 +1,21 @@
 package com.itaewonproject
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.location.Address
+import android.location.Geocoder
 import android.os.AsyncTask
 import android.util.Log
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.model.Place
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import com.itaewonproject.ServerResult.Article
 import com.itaewonproject.ServerResult.Location
+import java.io.IOException
 
 
 object APIs{
@@ -272,6 +279,29 @@ object APIs{
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
         }
+    }
+
+    fun getMarkerOption(context: Context, latLng: LatLng): MarkerOptions {
+        var marker = MarkerOptions()
+        var result=listOf<Address>()
+        var place: Place
+        marker.position(latLng)
+
+        try{
+            result = Geocoder(context).getFromLocation(latLng.latitude,latLng.longitude,1)
+            if(result.size>0){
+                marker.snippet(result[0].getAddressLine(0))
+                marker.title(result[0].featureName)
+
+            }
+        }catch (e: IOException){
+            e.printStackTrace()
+        }catch (e:IndexOutOfBoundsException){
+            e.printStackTrace()
+        }
+
+
+        return marker
     }
 
 }

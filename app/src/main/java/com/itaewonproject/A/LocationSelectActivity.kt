@@ -1,5 +1,6 @@
 package com.itaewonproject.A
 
+import android.content.Context
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
@@ -20,6 +21,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.itaewonproject.APIs
 import com.itaewonproject.R
 import java.io.IOException
 import java.util.*
@@ -33,6 +35,7 @@ class LocationSelectActivity : AppCompatActivity(),OnMapReadyCallback{
     private lateinit var mMap: GoogleMap
     private lateinit var location: Location
     private lateinit var geocoder:Geocoder
+    private lateinit var con:Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +43,7 @@ class LocationSelectActivity : AppCompatActivity(),OnMapReadyCallback{
 
         Places.initialize(applicationContext,"AIzaSyCQBy7WzSBK-kamsMKt6Yk1XpxirVKiW8A")
         var placesClient = Places.createClient(this) as PlacesClient
-        geocoder = Geocoder(this)
-
+        con = this
         val mapFragment = fragmentManager.findFragmentById(R.id.map) as MapFragment
         mapFragment.getMapAsync(this)
 
@@ -57,7 +59,7 @@ class LocationSelectActivity : AppCompatActivity(),OnMapReadyCallback{
                 if (place.latLng != null) {
                     mMap.clear()
                     Log.i("!!",place.name)
-                    mMap.addMarker(getMarkerOption(place.latLng!!))
+                    mMap.addMarker(APIs.getMarkerOption(con,place.latLng!!))
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(place.latLng))
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))
                 }
@@ -69,28 +71,7 @@ class LocationSelectActivity : AppCompatActivity(),OnMapReadyCallback{
         })
     }
 
-    private fun getMarkerOption(latLng: LatLng):MarkerOptions{
-        var marker = MarkerOptions()
-        var result=listOf<Address>()
-        var place:Place
-        marker.position(latLng)
 
-        try{
-            result = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1)
-            if(result.size>0){
-                marker.snippet(result[0].getAddressLine(0))
-                marker.title(result[0].featureName)
-
-            }
-        }catch (e:IOException){
-            e.printStackTrace()
-        }catch (e:IndexOutOfBoundsException){
-            e.printStackTrace()
-        }
-
-
-        return marker
-    }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap=googleMap
@@ -103,7 +84,7 @@ class LocationSelectActivity : AppCompatActivity(),OnMapReadyCallback{
 
         mMap.setOnMapClickListener(GoogleMap.OnMapClickListener(){
             mMap.clear()
-            mMap.addMarker(getMarkerOption(it))
+            mMap.addMarker(APIs.getMarkerOption(con,it))
             mMap.animateCamera(CameraUpdateFactory.newLatLng(it))
 
         })
