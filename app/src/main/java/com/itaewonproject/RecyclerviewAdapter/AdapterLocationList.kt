@@ -1,9 +1,6 @@
-package com.itaewonproject
+package com.itaewonproject.RecyclerviewAdapter
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +11,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.GoogleMap
+import com.itaewonproject.APIs
+import com.itaewonproject.ServerResult.Location
+import com.itaewonproject.R
 
-class AdapterLocationList(val context: Context, var output:ArrayList<OutputLocation>, var mMap: GoogleMap) : RecyclerView.Adapter<AdapterLocationList.ViewHolder>() {
+class AdapterLocationList(val context: Context, var output:ArrayList<Location>) : RecyclerView.Adapter<AdapterLocationList.ViewHolder>() {
 
-    private lateinit var listener:onItemClickListener
+    private lateinit var listener: onItemClickListener
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -33,7 +33,7 @@ class AdapterLocationList(val context: Context, var output:ArrayList<OutputLocat
         return output.size
     }
 
-    fun add(oll:OutputLocation){
+    fun add(oll: Location){
         output.add(oll)
         notifyDataSetChanged()
     }
@@ -42,7 +42,7 @@ class AdapterLocationList(val context: Context, var output:ArrayList<OutputLocat
         fun onItemClick(v: View, position:Int)
     }
 
-    fun setOnItemClickClickListener(listener:onItemClickListener){
+    fun setOnItemClickClickListener(listener: onItemClickListener){
         this.listener=listener
     }
 
@@ -72,7 +72,7 @@ class AdapterLocationList(val context: Context, var output:ArrayList<OutputLocat
                 }
             })
         }
-        fun bind(output:OutputLocation){
+        fun bind(output: Location){
             this.title.text=output.title
             this.rating.rating=output.rating
             this.placeId=output.placeId
@@ -80,7 +80,7 @@ class AdapterLocationList(val context: Context, var output:ArrayList<OutputLocat
             this.usedTime.text="평균 소요 시간: ${APIs.secToString(output.usedTime)}"
             this.articleCount.text="관련 게시물: ${output.articleCount} 건"
 
-            val adapter = AdapterImageList(itemView.context,output.imgUrl)
+            val adapter = AdapterImageList(itemView.context, output.imgUrl)
 
             imgList.adapter=adapter
 

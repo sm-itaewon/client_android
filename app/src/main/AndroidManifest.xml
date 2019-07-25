@@ -17,17 +17,27 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".LinkShareActivity">
+        <activity android:name=".B.RouteListFragment">
+        </activity>
+        <activity android:name=".B.MypageActivity">
             <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain" />
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".LocationArticleActivity">
+        <activity android:name=".A.LinkShareActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
 
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
         </activity>
-        <activity android:name=".LocationListActivity">
+        <activity android:name=".A.LocationArticleActivity">
+        </activity>
+        <activity android:name=".A.LocationListActivity">
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -41,7 +51,7 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key"/>
 
-        <activity android:name=".LocationSelectActivity">
+        <activity android:name=".A.LocationSelectActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

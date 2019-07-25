@@ -1,16 +1,15 @@
-package com.itaewonproject
+package com.itaewonproject.A
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
-import org.w3c.dom.Text
-import android.view.animation.LinearInterpolator
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.view.animation.DecelerateInterpolator
-import android.R.attr.action
 import android.text.Editable
+import com.itaewonproject.APIs
+import com.itaewonproject.R
 
 
 class LinkShareActivity : AppCompatActivity() {
@@ -78,13 +77,13 @@ class LinkShareActivity : AppCompatActivity() {
         }
         usedTime.max=3600
         usedTime.progress=1800
-        textUsedTime.text=APIs.secToString(usedTime.progress)
-        textSeekMax.text=APIs.secToString(usedTime.max)
+        textUsedTime.text= APIs.secToString(usedTime.progress)
+        textSeekMax.text= APIs.secToString(usedTime.max)
         usedTime.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 // Display the current progress of SeekBar
-                textUsedTime.text=APIs.secToString(i)
+                textUsedTime.text= APIs.secToString(i)
 
 
             }
@@ -97,7 +96,7 @@ class LinkShareActivity : AppCompatActivity() {
                 if(seekBar.progress>=seekBar.max && seekBar.max<86400){
                     var max=seekBar.max*2
                     if(max>86400)max=86400
-                    textSeekMax.text=APIs.secToString(max)
+                    textSeekMax.text= APIs.secToString(max)
                     val animation = ObjectAnimator.ofInt(seekBar, "max", max)
                     animation.duration = 100 // 0.5 second
                     animation.interpolator = DecelerateInterpolator()

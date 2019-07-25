@@ -1,9 +1,6 @@
-package com.itaewonproject
+package com.itaewonproject.RecyclerviewAdapter
 
 import android.content.Context
-import android.content.Intent
-import android.media.Image
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +8,14 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.itaewonproject.ServerResult.Article
+import com.itaewonproject.R
+import com.itaewonproject.RatioTransformation
 import com.squareup.picasso.Picasso
 
-class AdapterArticleList(val context: Context, var output:ArrayList<OutputArticle>) : RecyclerView.Adapter<AdapterArticleList.ViewHolder>() {
+class AdapterArticleList(val context: Context, var output:ArrayList<Article>) : RecyclerView.Adapter<AdapterArticleList.ViewHolder>() {
 
-    private lateinit var listener:onItemClickListener
+    private lateinit var listener: onItemClickListener
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(output[position])
@@ -30,7 +30,7 @@ class AdapterArticleList(val context: Context, var output:ArrayList<OutputArticl
         return output.size
     }
 
-    fun add(oll:OutputArticle){
+    fun add(oll: Article){
         output.add(oll)
         notifyDataSetChanged()
     }
@@ -39,7 +39,7 @@ class AdapterArticleList(val context: Context, var output:ArrayList<OutputArticl
         fun onItemClick(v: View, position:Int)
     }
 
-    fun setOnItemClickClickListener(listener:onItemClickListener){
+    fun setOnItemClickClickListener(listener: onItemClickListener){
         this.listener=listener
     }
 
@@ -63,7 +63,7 @@ class AdapterArticleList(val context: Context, var output:ArrayList<OutputArticl
                 }
             })
         }
-        fun bind(output:OutputArticle){
+        fun bind(output: Article){
             articleId=output.article_id
             Picasso.with(itemView.context)
                 .load(output.img_url)

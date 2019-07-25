@@ -1,9 +1,9 @@
-package com.itaewonproject
+package com.itaewonproject.ServerResult
 
 import android.graphics.Bitmap
 import java.net.URL
 
-class OutputArticle{
+class Article{
     var img_url =""
     var summary=""
     var ref_icon_url=""

@@ -1,4 +1,4 @@
-package com.itaewonproject
+package com.itaewonproject.A
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
+import com.itaewonproject.APIs
+import com.itaewonproject.RecyclerviewAdapter.AdapterLocationList
+import com.itaewonproject.ServerResult.Location
+import com.itaewonproject.R
 import java.io.Serializable
 
 class LocationListActivity: AppCompatActivity(),OnMapReadyCallback,Serializable {
@@ -21,10 +25,10 @@ class LocationListActivity: AppCompatActivity(),OnMapReadyCallback,Serializable 
     private lateinit var recyclerView: RecyclerView
     private lateinit var buttonAdd:Button
     private lateinit var buttonSort:Button
-    private var list=ArrayList<OutputLocation>()
+    private var list=ArrayList<Location>()
     private var zoom=15f
     private val context = this
-    private lateinit var adapter:AdapterLocationList
+    private lateinit var adapter: AdapterLocationList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +46,7 @@ class LocationListActivity: AppCompatActivity(),OnMapReadyCallback,Serializable 
         buttonSort=findViewById(R.id.button_sortList) as Button
 
         buttonAdd.setOnClickListener({
-            var intent = Intent(context,LinkShareActivity::class.java)
+            var intent = Intent(context, LinkShareActivity::class.java)
             startActivity(intent)
         })
 
@@ -60,15 +64,16 @@ class LocationListActivity: AppCompatActivity(),OnMapReadyCallback,Serializable 
             mMap.addMarker(markerOptions)
         }
         Log.i("!!!","1")
-        adapter = AdapterLocationList(this,list,mMap)
+        adapter = AdapterLocationList(this, list)
 
-        adapter.setOnItemClickClickListener(object:AdapterLocationList.onItemClickListener{
+        adapter.setOnItemClickClickListener(object: AdapterLocationList.onItemClickListener {
             override fun onItemClick(v: View, position: Int) {
-                var intent = Intent(context,LocationArticleActivity::class.java)
-                intent.putExtra("placeId",adapter.output[position].placeId)
-                intent.putExtra("rating",adapter.output[position].rating)
-                intent.putExtra("title",adapter.output[position].title)
-                intent.putExtra("usedTime",56000)
+                var intent = Intent(context, LocationArticleActivity::class.java)
+                //intent.putExtra("placeId",adapter.output[position].placeId)
+                //intent.putExtra("rating",adapter.output[position].rating)
+                //intent.putExtra("title",adapter.output[position].title)
+                intent.putExtra("Location",adapter.output[position])
+               // intent.putExtra("usedTime",56000)
                 startActivity(intent)
             }
 
@@ -92,19 +97,10 @@ class LocationListActivity: AppCompatActivity(),OnMapReadyCallback,Serializable 
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        /*for(i in list){
-            i.loadImages()
-        }*/
-        //Log.i("!!!","2")
-        //adapter.notifyDataSetChanged()
-    }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap=googleMap
-        list = APIs.API1(latlng.longitude,latlng.latitude,zoom)
+        list = APIs.API1(latlng.longitude, latlng.latitude, zoom)
 
        var markerOptions = MarkerOptions()
         markerOptions.position(latlng)

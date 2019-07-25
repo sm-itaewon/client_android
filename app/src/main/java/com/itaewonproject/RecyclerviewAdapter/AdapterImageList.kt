@@ -1,29 +1,14 @@
-package com.itaewonproject
+package com.itaewonproject.RecyclerviewAdapter
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.media.Image
-import android.net.Uri
-import android.os.AsyncTask
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.itaewonproject.R
+import com.itaewonproject.RatioTransformation
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.Transformation
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
-import java.net.MalformedURLException
-import java.net.URL
-import java.util.concurrent.ExecutionException
 
 class AdapterImageList(val context: Context, var images:ArrayList<String>) : RecyclerView.Adapter<AdapterImageList.ViewHolder>() {
 

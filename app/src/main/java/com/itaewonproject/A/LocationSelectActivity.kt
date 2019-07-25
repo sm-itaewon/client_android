@@ -1,27 +1,14 @@
-package com.itaewonproject
+package com.itaewonproject.A
 
-import android.Manifest
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.TextView
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.*
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
 import com.google.android.gms.common.api.Status
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
@@ -29,13 +16,11 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.internal.impl.net.pablo.PlaceResult
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.PlacesClient
-import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.itaewonproject.R
 import java.io.IOException
 import java.util.*
 
@@ -127,7 +112,7 @@ class LocationSelectActivity : AppCompatActivity(),OnMapReadyCallback{
         })
 
         mMap.setOnMarkerClickListener { it: Marker? ->
-            var intent = Intent(this,LocationListActivity::class.java)
+            var intent = Intent(this, LocationListActivity::class.java)
 
             if (it != null) {
                 intent.putExtra("LatLng",it.position);

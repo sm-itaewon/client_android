@@ -1,4 +1,4 @@
-package com.itaewonproject
+package com.itaewonproject.ServerResult
 
 import android.graphics.Bitmap
 import android.view.ViewDebug
@@ -13,7 +13,7 @@ import java.io.Serializable
  3 - 쇼핑
  4 - 액티비티
  */
-class OutputLocation{
+class Location:Serializable{
     var title=""
     var imgUrl: ArrayList<String>
     var rating=0f
