@@ -36,5 +36,6 @@ before_script:
   - chmod +x gradlew
 
 script:
+  - cp app/mock-google-services.json app/google-services.json
   - ./gradlew clean build
   - ./gradlew test
