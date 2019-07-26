@@ -13,8 +13,8 @@ import com.itaewonproject.APIs
 import com.itaewonproject.RecyclerviewAdapter.AdapterRouteList
 import com.itaewonproject.ServerResult.Route
 
-
-class RouteListFragment(var par:RouteFragment) : Fragment(),AdapterRouteList.OnStartDragListener {
+//(var par:RouteFragment)
+class RouteListFragment : Fragment(),AdapterRouteList.OnStartDragListener {
     override fun OnStartDrag(viewHolder: RecyclerView.ViewHolder) {
         itemTouchHelper.startDrag(viewHolder)
     }
@@ -34,7 +34,7 @@ class RouteListFragment(var par:RouteFragment) : Fragment(),AdapterRouteList.OnS
         adapter.setOnItemClickClickListener(object: AdapterRouteList.onItemClickListener {
             override fun onItemClick(v: View, position: Int) {
                 ///버튼 누르면 다음 프레그먼트 넘어가게 구현!
-                par.toEditFragment(position)
+                //par.toEditFragment(position)
             }
 
         })
