@@ -28,7 +28,7 @@ class RouteFragment : Fragment() {
         viewPager.adapter = adapter*/
         //tabLayout.setupWithViewPager(viewPager)
         val fragmentTransaction = fragmentManager!!.beginTransaction()
-        fragmentTransaction.add(R.id.fragment, RouteListFragment() // add 대신 replace도 가능
+        fragmentTransaction.add(R.id.fragment, RouteListFragment()) // add 대신 replace도 가능
         fragmentTransaction.commit()
     }
 
