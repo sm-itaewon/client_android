@@ -15,6 +15,7 @@ import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import com.itaewonproject.ServerResult.Article
 import com.itaewonproject.ServerResult.Location
+import com.itaewonproject.ServerResult.Route
 import java.io.IOException
 
 
@@ -107,6 +108,24 @@ object APIs{
         return API1JsonParsing(longitude,latitude,apiResult)
     }
 
+    fun B_API1(userID:Int):ArrayList<Route>{
+        var arr= ArrayList<Route>()
+        var in1 = Route("InRoute1","바르셀로나",101,"2019-05-05",ArrayList<Route>())
+        var in2 = Route("InRoute2","바르셀로나",102,"2019-05-06",ArrayList<Route>())
+        var in3 = Route("InRoute3","바르셀로나",103,"2019-05-07",ArrayList<Route>())
+        var in4 = Route("InRoute4","바르셀로나",101,"2019-05-08",ArrayList<Route>())
+        var r1 = Route("바르셀로나 여행기","바르셀로나",1,"2019-05-08",arrayListOf(in1,in2,in3,in4))
+        var r2 = Route("바르셀로나 여행기","바르셀로나",2,"2019-05-08",arrayListOf(in1,in2,in3,in4))
+        var r3 = Route("바르셀로나 여행기","바르셀로나",3,"2019-05-08",arrayListOf(in1,in2,in3,in4))
+        arr.add(r1)
+        for(i in 0 .. 9){
+            arr.add(Route("여행기 $i","스페인 어딘가",4+i,"2019-03-0$i",ArrayList<Route>()))
+        }
+        arr.add(r2)
+        arr.add(r3)
+        return arr
+    }
+
 
     private fun API1JsonParsing(longitude:Double, latitude:Double,result:String):ArrayList<Location>{
         var arr = ArrayList<Location>()
@@ -145,74 +164,74 @@ object APIs{
         var apiResult="""
             [
                 {
-                    "article_id"="1",
-                    "img_url"="$bmp1",
-                    "link"="${link[1]}",
-                    "ref_icon_url"="${ref[1]}",
-                    "summary"="summary\nof\nArticle1"
+                    "article_id":1,
+                    "img_url":"$bmp1",
+                    "link":"${link[1]}",
+                    "ref_icon_url":"${ref[1]}",
+                    "summary":"summary\nof\nArticle1"
                 },
                 {
-                    "article_id"="2",
-                    "img_url"="$bmp2",
-                    "link"="${link[0]}",
-                    "ref_icon_url"="${ref[0]}",
-                    "summary"="summary\nof\nArticle2"
+                    "article_id":2,
+                    "img_url":"$bmp2",
+                    "link":"${link[0]}",
+                    "ref_icon_url":"${ref[0]}",
+                    "summary":"summary\nof\nArticle2"
                 },
                 {
-                    "article_id"="3",
-                    "img_url"="$bmp3",
-                    "link"="${link[1]}",
-                    "ref_icon_url"="${ref[1]}",
-                    "summary"="summary\nof\nArticle3"
+                    "article_id":3,
+                    "img_url":"$bmp3",
+                    "link":"${link[1]}",
+                    "ref_icon_url":"${ref[1]}",
+                    "summary":"summary\nof\nArticle3"
                 },
                 {
-                    "article_id"="4",
-                    "img_url"="$bmp4",
-                    "link"="${link[0]}",
-                    "ref_icon_url"="${ref[0]}",
-                    "summary"="summary\nof\nArticle4"
+                    "article_id":4,
+                    "img_url":"$bmp4",
+                    "link":"${link[0]}",
+                    "ref_icon_url":"${ref[0]}",
+                    "summary":"summary\nof\nArticle4"
                 },
                 {
-                    "article_id"="5",
-                    "img_url"="$bmp5",
-                    "link"="${link[1]}",
-                    "ref_icon_url"="${ref[1]}",
-                    "summary"="summary\nof\nArticle5"
+                    "article_id":5,
+                    "img_url":"$bmp5",
+                    "link":"${link[1]}",
+                    "ref_icon_url":"${ref[1]}",
+                    "summary":"summary\nof\nArticle5"
                 },
                 {
-                    "article_id"="6",
-                    "img_url"="$bmp1",
-                    "link"="${link[0]}",
-                    "ref_icon_url"="${ref[0]}",
-                    "summary"="summary\nof\nArticle6"
+                    "article_id":6,
+                    "img_url":"$bmp1",
+                    "link":"${link[0]}",
+                    "ref_icon_url":"${ref[0]}",
+                    "summary":"summary\nof\nArticle6"
                 },
                 {
-                    "article_id"="7",
-                    "img_url"="$bmp2",
-                    "link"="${link[1]}",
-                    "ref_icon_url"="${ref[1]}",
-                    "summary"="summary\nof\nArticle7"
+                    "article_id":7,
+                    "img_url":"$bmp2",
+                    "link":"${link[1]}",
+                    "ref_icon_url":"${ref[1]}",
+                    "summary":"summary\nof\nArticle7"
                 },
                 {
-                    "article_id"="8",
-                    "img_url"="$bmp3",
-                    "link"="${link[0]}",
-                    "ref_icon_url"="${ref[0]}",
-                    "summary"="summary\nof\nArticle8"
+                    "article_id":8,
+                    "img_url":"$bmp3",
+                    "link":"${link[0]}",
+                    "ref_icon_url":"${ref[0]}",
+                    "summary":"summary\nof\nArticle8"
                 },
                 {
-                    "article_id"="9",
-                    "img_url"="$bmp4",
-                    "link"="${link[1]}",
-                    "ref_icon_url"="${ref[1]}",
-                    "summary"="summary\nof\nArticle9"
+                    "article_id":9,
+                    "img_url":"$bmp4",
+                    "link":"${link[1]}",
+                    "ref_icon_url":"${ref[1]}",
+                    "summary":"summary\nof\nArticle9"
                 },
                 {
-                    "article_id"="10",
-                    "img_url"="$bmp5",
-                    "link"="${link[0]}",
-                    "ref_icon_url"="${ref[0]}",
-                    "summary"="summary\nof\nArticle10"
+                    "article_id":10,
+                    "img_url":"$bmp5",
+                    "link":"${link[0]}",
+                    "ref_icon_url":"${ref[0]}",
+                    "summary":"summary\nof\nArticle10"
                 }
             ]
         """.trimIndent()

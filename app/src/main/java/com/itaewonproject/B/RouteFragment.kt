@@ -14,7 +14,7 @@ import com.itaewonproject.R
 
 class RouteFragment : Fragment() {
 
-    private lateinit var tabLayout: TabLayout
+    //private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager
 
 
@@ -23,14 +23,14 @@ class RouteFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        tabLayout = view.findViewById(R.id.tabLayout) as TabLayout
+        //tabLayout = view.findViewById(R.id.tabLayout) as TabLayout
         viewPager = view.findViewById(R.id.viewPager) as ViewPager
         var adapter = TabPagerAdapter(childFragmentManager!!,3)
         adapter.addPage(RouteListFragment(),"List")
         adapter.addPage(RouteEditFragment(),"Edit")
         adapter.addPage(RouteMapFragment(),"Map")
         viewPager.adapter = adapter
-        tabLayout.setupWithViewPager(viewPager)
+        //tabLayout.setupWithViewPager(viewPager)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

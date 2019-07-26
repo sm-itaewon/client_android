@@ -8,8 +8,8 @@ class Article{
     var summary=""
     var ref_icon_url=""
     var link=""
-    var article_id=""
-    constructor(img_url: String,summary:String,ref_icon_url:String,article_id:String,link:String){
+    var article_id=0
+    constructor(img_url: String,summary:String,ref_icon_url:String,article_id:Int,link:String){
         this.img_url=img_url
         this.summary=summary
         this.ref_icon_url=ref_icon_url

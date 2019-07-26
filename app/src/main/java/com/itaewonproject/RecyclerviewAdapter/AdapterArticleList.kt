@@ -48,7 +48,7 @@ class AdapterArticleList(val context: Context, var output:ArrayList<Article>) : 
         private var summary: TextView
         private var img:ImageView
         private var buttonRef:ImageButton
-        private var articleId=""
+        private var articleId=0
         init{
             summary = itemView.findViewById(R.id.text_summary) as TextView
             img = itemView.findViewById(R.id.image_arcticle) as ImageView
