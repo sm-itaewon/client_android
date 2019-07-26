@@ -17,16 +17,16 @@
             android:text="TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView" app:layout_constraintStart_toEndOf="@+id/image_category"
+            android:id="@+id/text_title" app:layout_constraintStart_toEndOf="@+id/image_category"
             android:layout_marginStart="8dp" android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/text_usedTime"/>
+            app:layout_constraintBottom_toTopOf="@+id/text_used_time"/>
     <TextView
             android:text="약 3시간 15분 소요"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/text_usedTime" app:layout_constraintStart_toStartOf="@+id/textView"
+            android:id="@+id/text_used_time" app:layout_constraintStart_toStartOf="@+id/text_title"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
     <View
             android:layout_width="3dp"

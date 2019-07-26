@@ -118,6 +118,7 @@ object APIs{
         var r2 = Route("바르셀로나 여행기","바르셀로나",2,"2019-05-08",arrayListOf(in1,in2,in3,in4))
         var r3 = Route("바르셀로나 여행기","바르셀로나",3,"2019-05-08",arrayListOf(in1,in2,in3,in4))
         arr.add(r1)
+        arr.add(Route("바르셀로나 여행기","바르셀로나",15,"2019-05-08",arrayListOf(in1,in2,in3,in4)))
         for(i in 0 .. 9){
             arr.add(Route("여행기 $i","스페인 어딘가",4+i,"2019-03-0$i",ArrayList<Route>()))
         }
@@ -127,7 +128,7 @@ object APIs{
     }
 
 
-    private fun API1JsonParsing(longitude:Double, latitude:Double,result:String):ArrayList<Location>{
+    fun API1JsonParsing(longitude:Double, latitude:Double,result:String):ArrayList<Location>{
         var arr = ArrayList<Location>()
         var gson = Gson()
         try{
@@ -135,7 +136,7 @@ object APIs{
         }catch(e:JsonParseException)
         {
             e.printStackTrace()
-        }
+        }/*
         for(i in 6..20){
             arr.add(
                 Location(
@@ -152,7 +153,7 @@ object APIs{
             )
 
         }
-        System.out.println(Gson().toJson(arr))
+        System.out.println(Gson().toJson(arr))*/
         return arr
     }
 

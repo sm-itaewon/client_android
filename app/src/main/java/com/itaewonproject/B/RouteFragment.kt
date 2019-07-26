@@ -6,17 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
 import com.itaewonproject.R
 
 
 class RouteFragment : Fragment() {
 
     //private lateinit var tabLayout: TabLayout
-    private lateinit var viewPager: ViewPager
-
+    //private lateinit var viewPager: ViewPager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,13 +20,23 @@ class RouteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //tabLayout = view.findViewById(R.id.tabLayout) as TabLayout
-        viewPager = view.findViewById(R.id.viewPager) as ViewPager
+        /*viewPager = view.findViewById(R.id.viewPager) as ViewPager
         var adapter = TabPagerAdapter(childFragmentManager!!,3)
         adapter.addPage(RouteListFragment(),"List")
         adapter.addPage(RouteEditFragment(),"Edit")
         adapter.addPage(RouteMapFragment(),"Map")
-        viewPager.adapter = adapter
+        viewPager.adapter = adapter*/
         //tabLayout.setupWithViewPager(viewPager)
+        val fragmentTransaction = fragmentManager!!.beginTransaction()
+        fragmentTransaction.add(R.id.fragment, RouteListFragment(this)) // add 대신 replace도 가능
+        fragmentTransaction.commit()
+    }
+
+    fun toEditFragment(pos:Int){
+        var fragmentTransaction = fragmentManager!!.beginTransaction()
+        fragmentTransaction.replace(R.id.fragment,RouteEditFragment())
+        fragmentTransaction.commit()
+        Log.i("!!~~","!!!")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

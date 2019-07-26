@@ -1,10 +1,11 @@
 package com.itaewonproject.B
 
+import android.util.Log
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.itaewonproject.RecyclerviewAdapter.AdapterRouteList
 
-class ItemTouchHelperCallback (adapter:AdapterRouteList): ItemTouchHelper.Callback(){
+class RoutesItemTouchHelperCallback (var adapter:AdapterRouteList): ItemTouchHelper.Callback(){
     private var listener:OnItemMoveListener
 
     init{
@@ -13,8 +14,21 @@ class ItemTouchHelperCallback (adapter:AdapterRouteList): ItemTouchHelper.Callba
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         var dragFlag:Int =ItemTouchHelper.UP or ItemTouchHelper.DOWN
-        var swipeFlag = ItemTouchHelper.START or ItemTouchHelper.END
-        return makeMovementFlags(dragFlag,0)
+        Log.i("!!","layout:${viewHolder.layoutPosition} adapter:${viewHolder.adapterPosition}")
+        if(adapter.routes[viewHolder.layoutPosition].opened != null)
+        {
+            if(!adapter.routes[viewHolder.layoutPosition].opened)
+            {
+                return makeMovementFlags(dragFlag,ItemTouchHelper.LEFT)
+            }else
+            {
+                return makeMovementFlags(dragFlag,0)
+            }
+        }else
+        {
+            return makeMovementFlags(dragFlag,ItemTouchHelper.LEFT)
+        }
+        //var swipeFlag = ItemTouchHelper.LEFT
     }
 
     override fun onMove(
@@ -28,10 +42,12 @@ class ItemTouchHelperCallback (adapter:AdapterRouteList): ItemTouchHelper.Callba
 
     interface OnItemMoveListener{
         fun OnItemMove(from:Int,to:Int):Boolean
+        fun OnItemSwipe(pos:Int):Boolean
+
     }
 
-
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        listener.OnItemSwipe(viewHolder.layoutPosition)
     }
 
 }

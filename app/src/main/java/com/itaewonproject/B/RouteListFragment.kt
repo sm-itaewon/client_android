@@ -1,8 +1,6 @@
 package com.itaewonproject.B
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.InflateException
 import android.view.LayoutInflater
 import android.view.View
@@ -11,15 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.itaewonproject.A.LocationArticleActivity
 import com.itaewonproject.APIs
-import com.itaewonproject.R
-import com.itaewonproject.RecyclerviewAdapter.AdapterLocationList
 import com.itaewonproject.RecyclerviewAdapter.AdapterRouteList
-import com.itaewonproject.ServerResult.Location
 import com.itaewonproject.ServerResult.Route
 
-class RouteListFragment : Fragment(),AdapterRouteList.OnStartDragListener {
+
+class RouteListFragment(var par:RouteFragment) : Fragment(),AdapterRouteList.OnStartDragListener {
     override fun OnStartDrag(viewHolder: RecyclerView.ViewHolder) {
         itemTouchHelper.startDrag(viewHolder)
     }
@@ -31,14 +26,15 @@ class RouteListFragment : Fragment(),AdapterRouteList.OnStartDragListener {
     private fun setListViewOption(view:View){
         list = APIs.B_API1(1)
 
-        recyclerView = view.findViewById(R.id.route_RecyclerView) as RecyclerView
+        recyclerView = view.findViewById(com.itaewonproject.R.id.route_RecyclerView) as RecyclerView
         val adapter = AdapterRouteList(view.context, list,this)
-        var callback = ItemTouchHelperCallback(adapter)
+        var callback = RoutesItemTouchHelperCallback(adapter)
         itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
         adapter.setOnItemClickClickListener(object: AdapterRouteList.onItemClickListener {
             override fun onItemClick(v: View, position: Int) {
                 ///버튼 누르면 다음 프레그먼트 넘어가게 구현!
+                par.toEditFragment(position)
             }
 
         })
@@ -59,7 +55,7 @@ class RouteListFragment : Fragment(),AdapterRouteList.OnStartDragListener {
         // Inflate the layout for this fragment
         var view=view
         try{
-            view=inflater.inflate(R.layout.fragment_route_list, container, false)
+            view=inflater.inflate(com.itaewonproject.R.layout.fragment_route_list, container, false)
         }catch (e:InflateException){
             e.printStackTrace()
         }

@@ -17,22 +17,33 @@ import androidx.core.view.MotionEventCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.itaewonproject.B.ItemTouchHelperCallback
+import com.itaewonproject.B.RoutesItemTouchHelperCallback
 import com.itaewonproject.R
 import com.itaewonproject.ServerResult.Route
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AdapterRouteList(val context: Context, var routes:ArrayList<Route>,var startDragListener:OnStartDragListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),ItemTouchHelperCallback.OnItemMoveListener {
+class AdapterRouteList(val context: Context, var routes:ArrayList<Route>,var startDragListener:OnStartDragListener) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+    RoutesItemTouchHelperCallback.OnItemMoveListener{
 
     private lateinit var listener: onItemClickListener
 
     override fun OnItemMove(from: Int, to: Int): Boolean {
+        Log.i("!!","$from,$to")
+
+
         Collections.swap(routes,from,to)
         notifyItemMoved(from,to)
         return true
     }
 
+    override fun OnItemSwipe(pos: Int): Boolean {
+        Log.i("Removing","$pos, ${routes[pos].title}")
+        routes.removeAt(pos)
+        notifyItemRemoved(pos)
+        return true
+    }
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -63,7 +74,6 @@ class AdapterRouteList(val context: Context, var routes:ArrayList<Route>,var sta
 
     interface OnStartDragListener{
         fun OnStartDrag(viewHolder:RecyclerView.ViewHolder)
-        //fun OnStartDrag(viewHolder:GroupViewHolder)
     }
 
     fun setOnItemClickClickListener(listener: onItemClickListener){
@@ -135,19 +145,7 @@ class AdapterRouteList(val context: Context, var routes:ArrayList<Route>,var sta
             recyclerView = itemView.findViewById(R.id.RecyclerView) as RecyclerView
             recyclerView.visibility=View.GONE
 
-            background.setOnClickListener({
-                if(recyclerView.visibility==View.GONE) {
-                    recyclerView.visibility=View.VISIBLE
-                    background.background = Color.GRAY.toDrawable()
-                    folder.setImageResource(R.drawable.ic_folder_open_black_24dp)
-                }
-                else {
-                    recyclerView.visibility=View.GONE
-                    background.background = Color.LTGRAY.toDrawable()
-                    folder.setImageResource(R.drawable.ic_folder_black_24dp)
 
-                }
-            })
 
         }
 
@@ -158,16 +156,30 @@ class AdapterRouteList(val context: Context, var routes:ArrayList<Route>,var sta
             updated.text=route.updated
 
             val adapter = AdapterRouteList(itemView.context, routes[pos].childRoute,this)
-            var callback = ItemTouchHelperCallback(adapter)
+            var callback = RoutesItemTouchHelperCallback(adapter)
 
             itemTouchHelper = ItemTouchHelper(callback)
             itemTouchHelper.attachToRecyclerView(recyclerView)
 
             adapter.setOnItemClickClickListener(object: onItemClickListener {
                 override fun onItemClick(v: View, position: Int) {
-                    Log.i("!!","!!")
-                }
 
+                }
+            })
+
+            background.setOnClickListener({
+                if(!routes[pos].opened) {
+                    recyclerView.visibility=View.VISIBLE
+                    background.background = Color.GRAY.toDrawable()
+                    folder.setImageResource(R.drawable.ic_folder_open_black_24dp)
+                    routes[pos].opened=true
+                }
+                else {
+                    recyclerView.visibility=View.GONE
+                    background.background = Color.LTGRAY.toDrawable()
+                    folder.setImageResource(R.drawable.ic_folder_black_24dp)
+                    routes[pos].opened=false
+                }
             })
 
             recyclerView.adapter=adapter

@@ -8,10 +8,11 @@
         tools:context=".B.RouteFragment">
 
 
-    <com.itaewonproject.B.NonSwipeViewPager
-            android:id="@+id/viewPager"
+    <LinearLayout
+            android:id="@+id/fragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
