@@ -5,9 +5,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".B.WishlistFragment">
+        tools:context=".B_Mypage.WishlistFragment">
 
-   <com.itaewonproject.B.NonSwipeViewPager
+   <com.itaewonproject.B_Mypage.NonSwipeViewPager
            android:id="@+id/viewPager"
            android:layout_width="0dp"
            android:layout_height="0dp"
@@ -16,7 +16,7 @@
            app:layout_constraintHorizontal_bias="0.0"
            app:layout_constraintTop_toTopOf="parent"
            app:layout_constraintBottom_toBottomOf="parent">
-   </com.itaewonproject.B.NonSwipeViewPager>
+   </com.itaewonproject.B_Mypage.NonSwipeViewPager>
    <com.google.android.material.tabs.TabLayout
            android:id="@+id/tabLayout"
            android:layout_width="wrap_content"

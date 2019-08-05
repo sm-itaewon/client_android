@@ -1,11 +1,9 @@
-package com.itaewonproject.B
+package com.itaewonproject.B_Mypage
 
-import android.app.Activity.RESULT_OK
-import android.content.ContentValues.TAG
+import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
-import android.content.RestrictionsManager.RESULT_ERROR
-import android.location.Geocoder
-import android.location.Location
+import android.content.RestrictionsManager
 import android.os.Bundle
 import android.util.Log
 import android.view.InflateException
@@ -14,29 +12,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
-import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.Marker
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
-import com.google.android.material.tabs.TabLayout
-import com.itaewonproject.A.LocationListActivity
 import com.itaewonproject.APIs
 import com.itaewonproject.R
-import kotlinx.android.synthetic.main.fragment_route_map.*
 import java.util.*
 
-class RouteMapFragment : Fragment(),OnMapReadyCallback {
+class WishlistMapFragment : Fragment(),OnMapReadyCallback {
 
     private lateinit var mMap:GoogleMap
     private lateinit var mapView:MapView
-    private lateinit var autoCompleteButton:ImageView
+    private lateinit var autoCompleteButton: ImageView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mapView = view.findViewById(R.id.map) as MapView
@@ -46,7 +36,9 @@ class RouteMapFragment : Fragment(),OnMapReadyCallback {
 
         Places.initialize(activity!!.applicationContext,"AIzaSyCQBy7WzSBK-kamsMKt6Yk1XpxirVKiW8A")
         var placesClient = Places.createClient(context!!) as PlacesClient
-        var intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,Arrays.asList(Place.Field.ID,Place.Field.NAME,Place.Field.LAT_LNG)).build(context!!)
+        var intent = Autocomplete.IntentBuilder(
+            AutocompleteActivityMode.OVERLAY,
+            Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)).build(context!!)
         autoCompleteButton.setOnClickListener({
             startActivityForResult(intent,1)
         })
@@ -54,7 +46,7 @@ class RouteMapFragment : Fragment(),OnMapReadyCallback {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(requestCode==1){
-            if(resultCode==RESULT_OK)
+            if(resultCode== Activity.RESULT_OK)
             {
                 var place  = Autocomplete.getPlaceFromIntent(data!!)
                 if (place.latLng != null) {
@@ -65,9 +57,9 @@ class RouteMapFragment : Fragment(),OnMapReadyCallback {
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))
                 }
             }
-            else if(requestCode==RESULT_ERROR){
+            else if(requestCode== RestrictionsManager.RESULT_ERROR){
                 var status = Autocomplete.getStatusFromIntent(data!!)
-                Log.e(TAG,status.statusMessage)
+                Log.e(ContentValues.TAG,status.statusMessage)
             }
         }
     }
@@ -110,11 +102,12 @@ class RouteMapFragment : Fragment(),OnMapReadyCallback {
         }*/
 
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         var view=view
-        try {
-            view = inflater.inflate(R.layout.fragment_route_map, container, false)
+        try{
+            view=inflater.inflate(R.layout.fragment_wishlist_map, container, false)
         }catch (e: InflateException){
             e.printStackTrace()
         }

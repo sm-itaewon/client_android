@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.itaewonproject.ServerResult.Article
 import com.itaewonproject.R
 import com.itaewonproject.RatioTransformation
 import com.squareup.picasso.Picasso
+import java.lang.invoke.ConstantCallSite
 
 class AdapterArticleList(val context: Context, var output:ArrayList<Article>) : RecyclerView.Adapter<AdapterArticleList.ViewHolder>() {
 
@@ -30,10 +32,6 @@ class AdapterArticleList(val context: Context, var output:ArrayList<Article>) : 
         return output.size
     }
 
-    fun add(oll: Article){
-        output.add(oll)
-        notifyDataSetChanged()
-    }
 
     interface onItemClickListener{
         fun onItemClick(v: View, position:Int)
@@ -46,14 +44,33 @@ class AdapterArticleList(val context: Context, var output:ArrayList<Article>) : 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var summary: TextView
-        private var img:ImageView
+        private var imgSmall:ImageView
+        private var imgBig:ImageView
         private var buttonRef:ImageButton
+        private var layoutArticle:ConstraintLayout
         private var articleId=0
         init{
             summary = itemView.findViewById(R.id.text_summary) as TextView
-            img = itemView.findViewById(R.id.image_arcticle) as ImageView
+            imgSmall = itemView.findViewById(R.id.image_article_small) as ImageView
+            imgBig = itemView.findViewById(R.id.image_arcticle_big) as ImageView
             buttonRef=itemView.findViewById(R.id.imageButton_ref) as ImageButton
+            layoutArticle=itemView.findViewById(R.id.layout_article) as ConstraintLayout
+            imgBig.visibility=View.GONE
 
+            layoutArticle.setOnClickListener({
+                if(imgBig.visibility==View.GONE){
+                    imgBig.visibility=View.VISIBLE
+                    imgSmall.visibility=View.INVISIBLE
+                }else
+                {
+                    imgBig.visibility=View.GONE
+                    imgSmall.visibility=View.VISIBLE
+                }
+            })
+            imgBig.setOnClickListener({
+                imgBig.visibility=View.GONE
+                imgSmall.visibility=View.VISIBLE
+            })
             buttonRef.setOnClickListener(View.OnClickListener {
                 val pos = adapterPosition
                 if(pos!=RecyclerView.NO_POSITION){
@@ -67,9 +84,10 @@ class AdapterArticleList(val context: Context, var output:ArrayList<Article>) : 
             articleId=output.article_id
             Picasso.with(itemView.context)
                 .load(output.img_url)
-                .transform(RatioTransformation(300))
-                .into(img)
-
+                .into(imgSmall)
+            Picasso.with(itemView.context)
+                .load(output.img_url)
+                .into(imgBig)
 
             Picasso.with(itemView.context)
                 .load(output.ref_icon_url)

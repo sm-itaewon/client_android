@@ -1,5 +1,6 @@
 package com.itaewonproject
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -17,6 +18,14 @@ import com.itaewonproject.ServerResult.Article
 import com.itaewonproject.ServerResult.Location
 import com.itaewonproject.ServerResult.Route
 import java.io.IOException
+import java.net.HttpURLConnection.HTTP_OK
+import android.content.ContentValues
+import android.os.Build
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 
 
 object APIs{
@@ -158,7 +167,7 @@ object APIs{
     }
 
     fun API2(placeID:String):ArrayList<Article>{
-        var ref = listOf<String>("https://facebookbrand.com/wp-content/themes/fb-branding/assets/images/fb-logo.png?v2",
+       var ref = listOf<String>("https://facebookbrand.com/wp-content/themes/fb-branding/assets/images/fb-logo.png?v2",
             "https://instagram-brand.com/wp-content/uploads/2016/11/Instagram_AppIcon_Aug2017.png?w=300")
         var link = listOf<String>("http://www.facebook.com","http://www.instagram.com")
 
@@ -237,6 +246,10 @@ object APIs{
             ]
         """.trimIndent()
 
+        /* var taskAPI2 = TaskAPI2()
+
+        taskAPI2.execute()
+        var apiResult = taskAPI2.get()*/
         var arr = ArrayList<Article>()
         var gson = Gson()
         try{
@@ -270,10 +283,10 @@ object APIs{
 
 
     class TaskAPI1: AsyncTask<Map<String, String>, Integer, String>() {
-        val ip = "192.168.1.1"
+        val ip = "localhost"
         override fun doInBackground(vararg p0: Map<String, String>?): String {
 
-            val http = HttpClient.Builder("POST", "http://$ip:80/getLocationList") //포트번호,서블릿주소
+            val http = HttpClient.Builder("POST", "http://$ip:9090/getLocationList") //포트번호,서블릿주소
 
             // Parameter 를 전송한다.
             http.addAllParameters(p0[0]!!)
@@ -294,6 +307,46 @@ object APIs{
             // 응답 본문 가져오기
 
             return post.body
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+        }
+    }
+
+    class TaskAPI2: AsyncTask<Map<String, String>, Integer, String>() {
+        val ip = "localhost"
+        override fun doInBackground(vararg p0: Map<String, String>?): String {
+
+            /*val http = HttpClient.Builder("POST", "http://$ip:9090/article/read") //포트번호,서블릿주소
+
+            // Parameter 를 전송한다.
+            //http.addAllParameters(p0[0]!!)
+
+            Log.i("!!http Request URL",http.url)
+
+            //Http 요청 전송
+            val post = http.create()
+
+            post.request()
+
+            Log.i("!!postBody",post.body)
+
+
+            // 응답 상태코드 가져오기
+            val statusCode = post.httpStatusCode
+
+            // 응답 본문 가져오기
+
+            return post.body*/
+            var req= RequestHttpURLConnection()
+            var ret = req.request("http://localhost:9090/article/read",null)
+            if (ret != null) {
+                return ret
+            }else
+            {
+                return ""
+            }
         }
 
         override fun onPostExecute(result: String?) {
@@ -324,4 +377,98 @@ object APIs{
         return marker
     }
 
+     class RequestHttpURLConnection {
+
+        @TargetApi(Build.VERSION_CODES.N)
+        fun request(_url: String, _params: ContentValues?): String? {
+
+            // HttpURLConnection 참조 변수.
+            var urlConn: HttpURLConnection? = null
+            // URL 뒤에 붙여서 보낼 파라미터.
+            val sbParams = StringBuffer()
+
+            /**
+             * 1. StringBuffer에 파라미터 연결
+             */
+            // 보낼 데이터가 없으면 파라미터를 비운다.
+            if (_params == null)
+                sbParams.append("")
+            else {
+                // 파라미터가 2개 이상이면 파라미터 연결에 &가 필요하므로 스위칭할 변수 생성.
+                var isAnd = false
+                // 파라미터 키와 값.
+                var key: String
+                var value: String
+
+                for ((key1, value1) in _params.valueSet()) {
+                    key = key1
+                    value = value1.toString()
+
+                    // 파라미터가 두개 이상일때, 파라미터 사이에 &를 붙인다.
+                    if (isAnd)
+                        sbParams.append("&")
+
+                    sbParams.append(key).append("=").append(value)
+
+                    // 파라미터가 2개 이상이면 isAnd를 true로 바꾸고 다음 루프부터 &를 붙인다.
+                    if (!isAnd)
+                        if (_params.size() >= 2)
+                            isAnd = true
+                }
+            }// 보낼 데이터가 있으면 파라미터를 채운다.
+
+            /**
+             * 2. HttpURLConnection을 통해 web의 데이터를 가져온다.
+             */
+            try {
+                val url = URL(_url)
+                urlConn = url.openConnection() as HttpURLConnection
+
+                // [2-1]. urlConn 설정.
+                //urlConn!!.setRequestMethod("POST") // URL 요청에 대한 메소드 설정 : POST.
+                //urlConn!!.setRequestProperty("Accept-Charset", "UTF-8") // Accept-Charset 설정.
+               //
+                // urlConn!!.setRequestProperty("Context_Type", "application/x-www-form-urlencoded;cahrset=UTF-8")
+
+                // [2-2]. parameter 전달 및 데이터 읽어오기.
+                val strParams = sbParams.toString() //sbParams에 정리한 파라미터들을 스트링으로 저장. 예)id=id1&pw=123;
+                val os = urlConn!!.getOutputStream()
+                os.write(strParams.toByteArray(charset("UTF-8"))) // 출력 스트림에 출력.
+                os.flush() // 출력 스트림을 플러시(비운다)하고 버퍼링 된 모든 출력 바이트를 강제 실행.
+                os.close() // 출력 스트림을 닫고 모든 시스템 자원을 해제.
+
+                // [2-3]. 연결 요청 확인.
+                // 실패 시 null을 리턴하고 메서드를 종료.
+                if (urlConn!!.getResponseCode() !== HttpURLConnection.HTTP_OK)
+                    return null
+
+                // [2-4]. 읽어온 결과물 리턴.
+                // 요청한 URL의 출력물을 BufferedReader로 받는다.
+                val reader = BufferedReader(InputStreamReader(urlConn!!.getInputStream(), "UTF-8"))
+
+                // 출력물의 라인과 그 합에 대한 변수.
+                var line: String
+                var page = ""
+
+                // 라인을 받아와 합친다.
+                for(line in reader.lines()){
+                    page+=line
+                }
+
+                return page
+
+            } catch (e: MalformedURLException) { // for URL.
+                e.printStackTrace()
+            } catch (e: IOException) { // for openConnection().
+                e.printStackTrace()
+            } finally {
+                if (urlConn != null)
+                    urlConn!!.disconnect()
+            }
+
+            return null
+
+        }
+
+    }
 }

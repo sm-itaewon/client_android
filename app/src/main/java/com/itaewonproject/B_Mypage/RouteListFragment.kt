@@ -1,4 +1,4 @@
-package com.itaewonproject.B
+package com.itaewonproject.B_Mypage
 
 import android.os.Bundle
 import android.view.InflateException
@@ -10,32 +10,35 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.itaewonproject.APIs
-import com.itaewonproject.R
-import com.itaewonproject.RecyclerviewAdapter.AdapterRouteEdit
-import com.itaewonproject.ServerResult.Location
+import com.itaewonproject.RecyclerviewAdapter.AdapterRouteList
+import com.itaewonproject.ServerResult.Route
 
-class RouteEditFragment : Fragment(),AdapterRouteEdit.OnStartDragListener  {
-
+class RouteListFragment: Fragment(),AdapterRouteList.OnStartDragListener {
     override fun OnStartDrag(viewHolder: RecyclerView.ViewHolder) {
         itemTouchHelper.startDrag(viewHolder)
     }
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var list:ArrayList<Location>
-    private lateinit var itemTouchHelper: ItemTouchHelper
+    private lateinit var list:ArrayList<Route>
+    private lateinit var itemTouchHelper:ItemTouchHelper
+    private lateinit var par:RouteFragment
+    private lateinit var adapter:AdapterRouteList
+
+    /*fun setPar(par:RouteFragment){
+        this.par=par
+       // adapter.routeFragment=par
+    }*/
 
     private fun setListViewOption(view:View){
-        list = APIs.API1(12.333333,123.333333,14f)
-
-        recyclerView = view.findViewById(R.id.edit_recyclerView) as RecyclerView
-        val adapter = AdapterRouteEdit(view.context, list,this)
-        var callback = EditItemTouchHelperCallback(adapter)
+        list = APIs.B_API1(1)
+        adapter = AdapterRouteList(view.context,list,this)
+        recyclerView = view.findViewById(com.itaewonproject.R.id.route_RecyclerView) as RecyclerView
+        var callback = RoutesItemTouchHelperCallback(adapter)
         itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-        adapter.setOnItemClickClickListener(object: AdapterRouteEdit.onItemClickListener {
+        adapter.setOnItemClickClickListener(object: AdapterRouteList.onItemClickListener {
             override fun onItemClick(v: View, position: Int) {
-                ///버튼 누르면 다음 프레그먼트 넘어가게 구현!
-                //par.toEditFragment(position)
+               // par.toEditFragment(position)
             }
 
         })
@@ -43,7 +46,7 @@ class RouteEditFragment : Fragment(),AdapterRouteEdit.OnStartDragListener  {
         recyclerView.adapter=adapter
 
         val linearLayoutManager= LinearLayoutManager(view.context)
-        recyclerView.layoutManager= linearLayoutManager
+        recyclerView.layoutManager= linearLayoutManager as RecyclerView.LayoutManager?
         recyclerView.setHasFixedSize(true)
 
     }
@@ -51,14 +54,16 @@ class RouteEditFragment : Fragment(),AdapterRouteEdit.OnStartDragListener  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setListViewOption(view)
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         var view=view
         try{
-            view=inflater.inflate(R.layout.fragment_route_edit, container, false)
-        }catch (e: InflateException){
+            view=inflater.inflate(com.itaewonproject.R.layout.fragment_route_list, container, false)
+        }catch (e:InflateException){
             e.printStackTrace()
         }
+
         return view
     }
 }

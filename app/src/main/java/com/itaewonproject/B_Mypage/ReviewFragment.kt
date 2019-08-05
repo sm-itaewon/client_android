@@ -1,6 +1,5 @@
-package com.itaewonproject.B
+package com.itaewonproject.B_Mypage
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -42,7 +41,7 @@ class ReviewFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        var button = view.findViewById(R.id.button) as Button
+        var button = view.findViewById(R.id.button_create) as Button
         button.setOnClickListener({
             Log.i("!!","!!")
         })

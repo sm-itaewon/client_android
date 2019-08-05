@@ -1,9 +1,8 @@
-package com.itaewonproject.B
+package com.itaewonproject.B_Mypage
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.itaewonproject.R
 
