@@ -1,13 +1,16 @@
-package com.itaewonproject.B
+package com.itaewonproject.B_Mypage
 
 import android.util.Log
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.itaewonproject.RecyclerviewAdapter.AdapterRouteList
+import java.util.*
 
 class RoutesItemTouchHelperCallback (var adapter:AdapterRouteList): ItemTouchHelper.Callback(){
     private var listener:OnItemMoveListener
-
+    private var mFrom:Int?=null
+    private var mTo:Int?=null
+    lateinit var movedTime: Date
     init{
         listener = adapter
     }
@@ -31,18 +34,53 @@ class RoutesItemTouchHelperCallback (var adapter:AdapterRouteList): ItemTouchHel
         //var swipeFlag = ItemTouchHelper.LEFT
     }
 
+    override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+        super.clearView(recyclerView, viewHolder)
+        if (mFrom != null && mTo != null&& movedTime!=null)
+            listener.OnItemDrag(mFrom!!,mTo!!,movedTime!!)
+        mTo = null
+        mFrom = mTo
+    }
+
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        listener.OnItemMove(viewHolder.adapterPosition,target.adapterPosition)
+        if (viewHolder.getItemViewType() != target.getItemViewType()) {
+            return false;
+        }
+
+        // remember FIRST from position
+        if (mFrom == null)
+            mFrom = viewHolder.adapterPosition
+        mTo = target.adapterPosition
+        movedTime= Date()
+
+        // Notify the adapter of the move
+        return true
+    }
+
+    override fun onMoved(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        fromPos: Int,
+        target: RecyclerView.ViewHolder,
+        toPos: Int,
+        x: Int,
+        y: Int
+    ) {
+        listener.OnItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+    }
+
+    override fun isLongPressDragEnabled(): Boolean {
         return true
     }
 
     interface OnItemMoveListener{
         fun OnItemMove(from:Int,to:Int):Boolean
         fun OnItemSwipe(pos:Int):Boolean
+        fun OnItemDrag(from:Int,to:Int,date:Date):Boolean
 
     }
 

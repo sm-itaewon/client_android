@@ -1,4 +1,4 @@
-package com.itaewonproject.B
+package com.itaewonproject.B_Mypage
 
 import android.content.Context;
 import android.util.AttributeSet;

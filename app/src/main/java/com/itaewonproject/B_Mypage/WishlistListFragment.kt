@@ -1,21 +1,17 @@
-package com.itaewonproject.B
+package com.itaewonproject.B_Mypage
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.itaewonproject.A.LocationArticleActivity
 import com.itaewonproject.APIs
 import com.itaewonproject.R
-import com.itaewonproject.RecyclerviewAdapter.AdapterArticleList
 import com.itaewonproject.RecyclerviewAdapter.AdapterLocationList
 import com.itaewonproject.ServerResult.Location
 

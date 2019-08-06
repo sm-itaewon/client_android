@@ -16,15 +16,21 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
-        <activity android:name=".B.RouteListFragment">
+            android:theme="@style/AppTheme"
+            android:usesCleartextTraffic="true">
+        <activity android:name=".B_Landing.LandingPageActivity">
         </activity>
-        <activity android:name=".B.MypageActivity">
+        <activity android:name=".B_Landing.SignInActivity">
+        </activity>
+        <activity android:name=".B_Landing.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".B_Mypage.MypageActivity">
+
         </activity>
         <activity android:name=".A.LinkShareActivity">
             <intent-filter>

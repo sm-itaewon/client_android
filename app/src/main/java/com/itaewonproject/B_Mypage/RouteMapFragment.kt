@@ -1,10 +1,9 @@
-package com.itaewonproject.B
+package com.itaewonproject.B_Mypage
 
-import android.app.Activity
-import android.content.ContentValues
+import android.app.Activity.RESULT_OK
+import android.content.ContentValues.TAG
 import android.content.Intent
-import android.content.RestrictionsManager
-import android.location.Geocoder
+import android.content.RestrictionsManager.RESULT_ERROR
 import android.os.Bundle
 import android.util.Log
 import android.view.InflateException
@@ -23,11 +22,11 @@ import com.itaewonproject.APIs
 import com.itaewonproject.R
 import java.util.*
 
-class WishlistMapFragment : Fragment(),OnMapReadyCallback {
+class RouteMapFragment : Fragment(),OnMapReadyCallback {
 
     private lateinit var mMap:GoogleMap
     private lateinit var mapView:MapView
-    private lateinit var autoCompleteButton: ImageView
+    private lateinit var autoCompleteButton:ImageView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mapView = view.findViewById(R.id.map) as MapView
@@ -37,9 +36,7 @@ class WishlistMapFragment : Fragment(),OnMapReadyCallback {
 
         Places.initialize(activity!!.applicationContext,"AIzaSyCQBy7WzSBK-kamsMKt6Yk1XpxirVKiW8A")
         var placesClient = Places.createClient(context!!) as PlacesClient
-        var intent = Autocomplete.IntentBuilder(
-            AutocompleteActivityMode.OVERLAY,
-            Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)).build(context!!)
+        var intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,Arrays.asList(Place.Field.ID,Place.Field.NAME,Place.Field.LAT_LNG)).build(context!!)
         autoCompleteButton.setOnClickListener({
             startActivityForResult(intent,1)
         })
@@ -47,7 +44,7 @@ class WishlistMapFragment : Fragment(),OnMapReadyCallback {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(requestCode==1){
-            if(resultCode== Activity.RESULT_OK)
+            if(resultCode==RESULT_OK)
             {
                 var place  = Autocomplete.getPlaceFromIntent(data!!)
                 if (place.latLng != null) {
@@ -58,9 +55,9 @@ class WishlistMapFragment : Fragment(),OnMapReadyCallback {
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(15f))
                 }
             }
-            else if(requestCode== RestrictionsManager.RESULT_ERROR){
+            else if(requestCode==RESULT_ERROR){
                 var status = Autocomplete.getStatusFromIntent(data!!)
-                Log.e(ContentValues.TAG,status.statusMessage)
+                Log.e(TAG,status.statusMessage)
             }
         }
     }
@@ -103,12 +100,11 @@ class WishlistMapFragment : Fragment(),OnMapReadyCallback {
         }*/
 
     }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         var view=view
-        try{
-            view=inflater.inflate(R.layout.fragment_wishlist_map, container, false)
+        try {
+            view = inflater.inflate(R.layout.fragment_route_map, container, false)
         }catch (e: InflateException){
             e.printStackTrace()
         }

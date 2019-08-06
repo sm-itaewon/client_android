@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:background="#DDDDDD"
         android:layout_height="match_parent"
-        tools:context=".B.WishlistListFragment">
+        tools:context=".B_Mypage.WishlistListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"

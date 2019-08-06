@@ -11,8 +11,7 @@ import android.widget.TextView
 import androidx.core.view.MotionEventCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.itaewonproject.APIs
-import com.itaewonproject.B.EditItemTouchHelperCallback
-import com.itaewonproject.B.RoutesItemTouchHelperCallback
+import com.itaewonproject.B_Mypage.EditItemTouchHelperCallback
 import com.itaewonproject.R
 import com.itaewonproject.ServerResult.Location
 import java.util.*
@@ -21,13 +20,17 @@ import kotlin.collections.ArrayList
 class AdapterRouteEdit(val context: Context, var edits:ArrayList<Location>, var startDragListener:OnStartDragListener) :
     RecyclerView.Adapter<AdapterRouteEdit.EditViewHolder>(),
     EditItemTouchHelperCallback.OnItemMoveListener {
+    override fun OnItemDrag(from: Int, to: Int,date:Date): Boolean {
+        notifyDataSetChanged()
+        return true
+    }
 
     private lateinit var listener: onItemClickListener
-
     override fun OnItemMove(from: Int, to: Int): Boolean {
         Log.i("Moving","$from, $to")
         Collections.swap(edits,from,to)
         notifyItemMoved(from,to)
+        //onBindViewHolder(get)
         return true
     }
 
@@ -40,8 +43,7 @@ class AdapterRouteEdit(val context: Context, var edits:ArrayList<Location>, var 
 
 
     override fun onBindViewHolder(holder: EditViewHolder, position: Int) {
-        Log.i("Binding","$position")
-       holder.bind(position)
+        holder.bind(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditViewHolder {
@@ -96,9 +98,13 @@ class AdapterRouteEdit(val context: Context, var edits:ArrayList<Location>, var 
             var edit = edits[pos]
             title.text = edit.title
             usedTime.text= "약 ${APIs.secToString(edit.usedTime)}"
-            if(pos==0) lineUp.visibility=View.INVISIBLE
-            if(pos==edits.size-1) lineDown.visibility=View.INVISIBLE
-            if(pos>0 && pos<edits.size-1){
+            if(pos==0) {
+                lineUp.visibility=View.INVISIBLE
+                lineDown.visibility=View.VISIBLE
+            }else if(pos==edits.size-1){
+                lineDown.visibility=View.INVISIBLE
+                lineUp.visibility=View.VISIBLE
+            }else{
                 lineUp.visibility=View.VISIBLE
                 lineDown.visibility=View.VISIBLE
             }

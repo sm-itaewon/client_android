@@ -1,4 +1,4 @@
-package com.itaewonproject.B
+package com.itaewonproject.B_Mypage
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

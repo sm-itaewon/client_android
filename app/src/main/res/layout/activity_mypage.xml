@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".B.MypageActivity">
+        tools:context=".B_Mypage.MypageActivity">
 
     <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -21,7 +21,7 @@
             app:layout_constraintBottom_toBottomOf="parent">
     </com.google.android.material.tabs.TabLayout>
 
-    <com.itaewonproject.B.NonSwipeViewPager
+    <com.itaewonproject.B_Mypage.NonSwipeViewPager
             android:id="@+id/viewPager"
             android:layout_width="0dp"
             android:layout_height="0dp"

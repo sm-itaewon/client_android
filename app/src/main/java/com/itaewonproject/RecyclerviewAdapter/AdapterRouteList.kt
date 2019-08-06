@@ -17,22 +17,37 @@ import androidx.core.view.MotionEventCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.itaewonproject.B.RoutesItemTouchHelperCallback
+import com.itaewonproject.B_Mypage.RoutesItemTouchHelperCallback
 import com.itaewonproject.R
 import com.itaewonproject.ServerResult.Route
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AdapterRouteList(val context: Context, var routes:ArrayList<Route>,var startDragListener:OnStartDragListener) :
+class AdapterRouteList(val context: Context,var routes:ArrayList<Route>,var startDragListener:OnStartDragListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     RoutesItemTouchHelperCallback.OnItemMoveListener{
 
     private lateinit var listener: onItemClickListener
 
+    override fun OnItemDrag(from: Int, to: Int, date: Date): Boolean {
+        Log.i("!!","${date.seconds}, ${Date().seconds}, ${Date().time-date.time}")
+        if((Date().time-date.time)>1000)
+        {
+            //Log.i("!!","from:$from , to:$to")
+            if(routes[from].childRoute.isEmpty()){
+                routes[to].childRoute.add(routes[from])
+            }else
+            {
+                routes[to].childRoute.addAll(routes[from].childRoute)
+            }
+            routes.removeAt(from)
+            notifyDataSetChanged()
+        }
+        return true
+    }
+
     override fun OnItemMove(from: Int, to: Int): Boolean {
         Log.i("!!","$from,$to")
-
-
         Collections.swap(routes,from,to)
         notifyItemMoved(from,to)
         return true
@@ -41,7 +56,8 @@ class AdapterRouteList(val context: Context, var routes:ArrayList<Route>,var sta
     override fun OnItemSwipe(pos: Int): Boolean {
         Log.i("Removing","$pos, ${routes[pos].title}")
         routes.removeAt(pos)
-        notifyItemRemoved(pos)
+        //notifyItemRemoved(pos)
+        notifyDataSetChanged()
         return true
     }
 
@@ -91,17 +107,6 @@ class AdapterRouteList(val context: Context, var routes:ArrayList<Route>,var sta
             title = itemView.findViewById(R.id.text_title) as EditText
             location = itemView.findViewById(R.id.text_location) as TextView
             updated = itemView.findViewById(R.id.text_updated) as TextView
-
-            itemView.setOnClickListener(View.OnClickListener {
-                val pos = adapterPosition
-                if(pos!=RecyclerView.NO_POSITION){
-                    if(listener!=null){
-                        listener.onItemClick(it,pos)
-                    }
-                }
-            })
-
-
         }
 
         fun bind(pos:Int){
@@ -109,6 +114,12 @@ class AdapterRouteList(val context: Context, var routes:ArrayList<Route>,var sta
             title.text = Editable.Factory.getInstance().newEditable(route.title)
             location.text=route.location
             updated.text=route.updated
+            itemView.setOnClickListener(View.OnClickListener {
+                val pos = adapterPosition
+                if(pos!=RecyclerView.NO_POSITION){
+                    //routeFragment.toEditFragment(pos)
+                }
+            })
 
             drag.setOnTouchListener({ view: View, motionEvent: MotionEvent ->
                 if(MotionEventCompat.getActionMasked(motionEvent)==MotionEvent.ACTION_DOWN){
@@ -120,7 +131,7 @@ class AdapterRouteList(val context: Context, var routes:ArrayList<Route>,var sta
 
     }
 
-    inner class GroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),AdapterRouteList.OnStartDragListener {
+    inner class GroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),OnStartDragListener {
         override fun OnStartDrag(viewHolder: RecyclerView.ViewHolder) {
             itemTouchHelper.startDrag(viewHolder)
         }
