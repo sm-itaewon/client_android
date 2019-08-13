@@ -37,7 +37,19 @@
                 android:id="@+id/image_add" app:layout_constraintEnd_toStartOf="@+id/image_map"
                 android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/ic_mode_edit_black_24dp"/>
+        <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="TextView"
+                android:ems="10"
+                android:id="@+id/edit_title"
+                app:layout_constraintTop_toTopOf="@+id/text_title"
+                app:layout_constraintBottom_toBottomOf="@+id/text_title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                app:layout_constraintEnd_toStartOf="@+id/image_add" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="4dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"

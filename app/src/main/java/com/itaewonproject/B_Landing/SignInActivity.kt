@@ -1,6 +1,5 @@
 package com.itaewonproject.B_Landing
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -22,8 +21,8 @@ class SignInActivity : AppCompatActivity() {
         editPW = findViewById(R.id.edit_password) as EditText
         editPWCheck = findViewById(R.id.edit_password_check) as EditText
         editName = findViewById(R.id.edit_name) as EditText
-        buttonSignin = findViewById(R.id.button_signin) as Button
-        buttonSigninKakao = findViewById(R.id.button_signin_kakao) as Button
+        buttonSignin = findViewById(R.id.button_create) as Button
+        buttonSigninKakao = findViewById(R.id.button_create_kakao) as Button
         buttonSignin.setOnClickListener({
             finish()
         })

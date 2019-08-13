@@ -55,7 +55,6 @@ class LocationSelectActivity : AppCompatActivity(),OnMapReadyCallback{
         autoCompleteSupportFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
                 // TODO: Get info about the selected place.
-
                 if (place.latLng != null) {
                     mMap.clear()
                     Log.i("!!",place.name)

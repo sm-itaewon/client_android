@@ -167,7 +167,7 @@ object APIs{
     }
 
     fun API2(placeID:String):ArrayList<Article>{
-       var ref = listOf<String>("https://facebookbrand.com/wp-content/themes/fb-branding/assets/images/fb-logo.png?v2",
+       /*var ref = listOf<String>("https://facebookbrand.com/wp-content/themes/fb-branding/assets/images/fb-logo.png?v2",
             "https://instagram-brand.com/wp-content/uploads/2016/11/Instagram_AppIcon_Aug2017.png?w=300")
         var link = listOf<String>("http://www.facebook.com","http://www.instagram.com")
 
@@ -245,11 +245,11 @@ object APIs{
                 }
             ]
         """.trimIndent()
-
-        /* var taskAPI2 = TaskAPI2()
+*/
+         var taskAPI2 = TaskAPI2()
 
         taskAPI2.execute()
-        var apiResult = taskAPI2.get()*/
+        var apiResult = taskAPI2.get()
         var arr = ArrayList<Article>()
         var gson = Gson()
         try{
@@ -340,7 +340,7 @@ object APIs{
 
             return post.body*/
             var req= RequestHttpURLConnection()
-            var ret = req.request("http://localhost:9090/article/read",null)
+            var ret = req.request("http://127.0.0.1:9090/article/read",null)
             if (ret != null) {
                 return ret
             }else

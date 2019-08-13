@@ -30,14 +30,16 @@ class RouteMapFragment : Fragment(),OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mapView = view.findViewById(R.id.map) as MapView
-        autoCompleteButton = view.findViewById(R.id.button_search) as ImageView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
+
+
+        autoCompleteButton = view.findViewById(R.id.button_search) as ImageView
 
         Places.initialize(activity!!.applicationContext,"AIzaSyCQBy7WzSBK-kamsMKt6Yk1XpxirVKiW8A")
         var placesClient = Places.createClient(context!!) as PlacesClient
         var intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,Arrays.asList(Place.Field.ID,Place.Field.NAME,Place.Field.LAT_LNG)).build(context!!)
-        autoCompleteButton.setOnClickListener({
+       autoCompleteButton.setOnClickListener({
             startActivityForResult(intent,1)
         })
     }
