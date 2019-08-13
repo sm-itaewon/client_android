@@ -1,5 +1,6 @@
 package com.itaewonproject.B_Mypage
 
+import android.graphics.Canvas
 import android.util.Log
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -15,31 +16,30 @@ class RoutesItemTouchHelperCallback (var adapter:AdapterRouteList): ItemTouchHel
         listener = adapter
     }
 
+
+
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         var dragFlag:Int =ItemTouchHelper.UP or ItemTouchHelper.DOWN
-        Log.i("!!","layout:${viewHolder.layoutPosition} adapter:${viewHolder.adapterPosition}")
-        if(adapter.routes[viewHolder.layoutPosition].opened != null)
-        {
-            if(!adapter.routes[viewHolder.layoutPosition].opened)
-            {
-                return makeMovementFlags(dragFlag,ItemTouchHelper.LEFT)
-            }else
-            {
-                return makeMovementFlags(dragFlag,0)
-            }
+        var pos = viewHolder.layoutPosition
+        var routes = adapter.routes
+        if(pos<routes.size){
+            return makeMovementFlags(dragFlag,ItemTouchHelper.LEFT)
         }else
         {
-            return makeMovementFlags(dragFlag,ItemTouchHelper.LEFT)
+            return makeMovementFlags(0,0)
         }
-        //var swipeFlag = ItemTouchHelper.LEFT
     }
+
+
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
-        if (mFrom != null && mTo != null&& movedTime!=null)
-            listener.OnItemDrag(mFrom!!,mTo!!,movedTime!!)
+        if(mFrom!=null && mTo!=null){
+            listener.OnMerge(mFrom!!,mTo!!,movedTime)
+
+        }
         mTo = null
-        mFrom = mTo
+        mFrom = null
     }
 
     override fun onMove(
@@ -47,16 +47,15 @@ class RoutesItemTouchHelperCallback (var adapter:AdapterRouteList): ItemTouchHel
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        if (viewHolder.getItemViewType() != target.getItemViewType()) {
+        /*if (viewHolder.getItemViewType() != target.getItemViewType()) {
             return false;
-        }
+        }*/
 
         // remember FIRST from position
         if (mFrom == null)
             mFrom = viewHolder.adapterPosition
         mTo = target.adapterPosition
         movedTime= Date()
-
         // Notify the adapter of the move
         return true
     }
@@ -70,7 +69,8 @@ class RoutesItemTouchHelperCallback (var adapter:AdapterRouteList): ItemTouchHel
         x: Int,
         y: Int
     ) {
-        listener.OnItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        //Log.i("!!!","$fromPos, $toPos")
+        //listener.OnItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
     }
 
     override fun isLongPressDragEnabled(): Boolean {
@@ -78,9 +78,10 @@ class RoutesItemTouchHelperCallback (var adapter:AdapterRouteList): ItemTouchHel
     }
 
     interface OnItemMoveListener{
-        fun OnItemMove(from:Int,to:Int):Boolean
+        fun OnMerge(from:Int,to:Int, date: Date)
+        fun OnShake(pos:Int, date: Date)
         fun OnItemSwipe(pos:Int):Boolean
-        fun OnItemDrag(from:Int,to:Int,date:Date):Boolean
+        //fun OnItemDrag(from:Int,to:Int,date:Date):Boolean
 
     }
 

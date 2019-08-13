@@ -3,10 +3,11 @@ package com.itaewonproject.B_Mypage
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.material.tabs.TabLayout
 import com.itaewonproject.R
 
-class MypageActivity : AppCompatActivity() {
+class MypageActivity : AppCompatActivity(){
 
     private lateinit var tabLayout:TabLayout
     private lateinit var viewPager:ViewPager
